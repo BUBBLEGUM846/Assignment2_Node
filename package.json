@@ -1,0 +1,28 @@
+{
+  "name": "assignment2_node",
+  "version": "1.0.0",
+  "description": "Assignment 2 - Node, creating a Theme Park Ticket site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BUBBLEGUM846/Assignment2_Node.git"
+  },
+  "author": "Olivia Stead",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BUBBLEGUM846/Assignment2_Node/issues"
+  },
+  "homepage": "https://github.com/BUBBLEGUM846/Assignment2_Node#readme",
+  "keywords": [],
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.2.0",
+    "mongodb": "^6.15.0"
+  }
+}
