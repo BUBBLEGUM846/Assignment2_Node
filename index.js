@@ -2,7 +2,7 @@
 
 import express from "express";
 import cookieParser from "cookie-parser";
-import db from "./db/database.js";
+import { getDB } from "./db/database.js";
 import usersRouter from "./routes/users.js";
 import ordersRouter from "./routes/orders.js";
 

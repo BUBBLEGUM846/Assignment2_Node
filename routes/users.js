@@ -1,7 +1,7 @@
 "use strict";
 
 import express from "express";
-import db from "../db/database.js";
+import { getDB } from "../db/database.js";
 import { allowed } from "../middleware/auth.js";
 
 const router = express.Router();

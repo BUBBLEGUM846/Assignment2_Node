@@ -17,3 +17,5 @@ async function connectToDB() {
 function getDB() {
     return db;
 }
+
+export { getDB };
