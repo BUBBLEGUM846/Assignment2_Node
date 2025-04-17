@@ -6,10 +6,10 @@ import { allowed } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/new-order", auth.allowed, async (req, res, next) =>
+router.post("/new-order", allowed, async (req, res, next) =>
 {
     try {
-        await db.getDB().collection("orders").insertOne({
+        await getDB().collection("orders").insertOne({
             buyer: res.locals.uid,
             date: new Date(req.body.date),
             fastRides: [],
@@ -22,11 +22,11 @@ router.post("/new-order", auth.allowed, async (req, res, next) =>
     }
 });
 
-router.post("/add-ride", auth.allowed, async (req, res, next) =>
+router.post("/add-ride", allowed, async (req, res, next) =>
 {
     try {
-        const ride = await db.getDB().collection("rides").findOne({ name: req.body.ride });
-        await db.getDB().collection("orders").updateOne(
+        const ride = await getDB().collection("rides").findOne({ name: req.body.ride });
+        await getDB().collection("orders").updateOne(
             { _id: new ObjectId(req.body.orderId) },
             {
                 $push: { fastRides: ride.name },
@@ -39,10 +39,10 @@ router.post("/add-ride", auth.allowed, async (req, res, next) =>
     }
 });
 
-router.post("/buy", auth.allowed, async (req, res, next) =>
+router.post("/buy", allowed, async (req, res, next) =>
 {
     try {
-        await db.getDB().collection("orders").updateOne(
+        await getDB().collection("orders").updateOne(
             { _id: new ObjectId(req.body.orderId) },
             { $set: { confirmed: true } }
         );
@@ -52,11 +52,11 @@ router.post("/buy", auth.allowed, async (req, res, next) =>
     }
 });
 
-router.get("/my-orders", auth.allowed, async (req, res, next) => 
+router.get("/my-orders", allowed, async (req, res, next) => 
 {
     try {
         const uid = (await fb.auth().getUser(res.locals.uid)).uid;
-        const orders = await db.getDB().collection("orders").find({ buyer: uid }).toArray();
+        const orders = await getDB().collection("orders").find({ buyer: uid }).toArray();
         res.render("my-orders", { orders });
     } catch(error) {
         next(error);
