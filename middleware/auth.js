@@ -27,4 +27,4 @@ async function allowed(req, res, next) {
     }
 }
 
-export { allowed };
+export { createSessionCookie, allowed };
