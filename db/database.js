@@ -17,5 +17,3 @@ async function connectToDB() {
 function getDB() {
     return db;
 }
-
-export default { connectToDB, getDB };

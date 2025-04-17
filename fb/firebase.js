@@ -13,4 +13,4 @@ admin.initializeApp({
     credential: admin.credential.cert(data)
 });
 
-export default admin;
+const fb = admin;
