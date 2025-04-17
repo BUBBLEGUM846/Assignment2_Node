@@ -18,7 +18,7 @@ app.set("view engine", "ejs");
 app.use("/", usersRouter);
 app.use("/orders", ordersRouter);
 
-db.connectToDB().then(() =>
+connectToDB().then(() =>
 {
     app.listen(PORT, () =>
     {

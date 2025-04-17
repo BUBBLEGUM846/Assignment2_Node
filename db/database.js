@@ -18,4 +18,4 @@ function getDB() {
     return db;
 }
 
-export { getDB };
+export { connectToDB, getDB };
