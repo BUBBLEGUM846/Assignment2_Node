@@ -1,4 +1,4 @@
-import fb from "../fb/firebase.js";
+import { admin as fb } from "../fb/firebase.js";
 
 async function createSessionCookie(req, res, next) {
     const expiresIn = 1000 * 60 * 60 * 24 * 5;

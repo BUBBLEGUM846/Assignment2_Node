@@ -1,6 +1,6 @@
 import express from "express";
 import { ObjectId } from "mongodb";
-import fb from "../fb/firebase.js";
+import { admin as fb } from "../fb/firebase.js";
 import db from "../db/database.js";
 import auth from "../middleware/auth.js";
 
