@@ -26,3 +26,5 @@ async function allowed(req, res, next) {
         next(error);
     }
 }
+
+export { allowed };

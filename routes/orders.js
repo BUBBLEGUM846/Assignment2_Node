@@ -2,7 +2,7 @@ import express from "express";
 import { ObjectId } from "mongodb";
 import { admin as fb } from "../fb/firebase.js";
 import db from "../db/database.js";
-import auth from "../middleware/auth.js";
+import { allowed } from "../middleware/auth.js";
 
 const router = express.Router();
 
