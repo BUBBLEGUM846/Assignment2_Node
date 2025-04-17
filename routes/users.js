@@ -2,7 +2,7 @@
 
 import express from "express";
 import { getDB } from "../db/database.js";
-import { allowed } from "../middleware/auth.js";
+import * as auth from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -24,7 +24,7 @@ router.get("/sign-up", (req, res) =>
 router.get("/", async (req, res, next) =>
 {
     try {
-        const rides = await db.getDB().collection("rides").find().toArray();
+        const rides = await getDB().collection("rides").find().toArray();
         res.render("home", { rides });
     } catch(error) {
         next(error);
