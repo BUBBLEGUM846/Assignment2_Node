@@ -19,8 +19,7 @@ async function allowed(req, res, next) {
     const sessionCookie = req.cookies.session || "";
 
     try {
-        const decoded = await fb.auth().verifySessionCookie(sessionCookie, true);
-        res.locals.uid = decoded.uid;
+        res.locals.uid = (await fb.auth().verifySessionCookie(sessionCookie, true)).uid;
         next();
     } catch (error) {
         error.status = 401;
