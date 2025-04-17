@@ -62,3 +62,5 @@ router.get("/my-orders", auth.allowed, async (req, res, next) =>
         next(error);
     }
 });
+
+export { router as ordersRouter };

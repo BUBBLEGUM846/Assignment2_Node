@@ -30,3 +30,5 @@ router.get("/", async (req, res, next) =>
         next(error);
     }
 });
+
+export { router as usersRouter };

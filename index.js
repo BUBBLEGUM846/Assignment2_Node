@@ -3,8 +3,8 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import { getDB } from "./db/database.js";
-import usersRouter from "./routes/users.js";
-import ordersRouter from "./routes/orders.js";
+import { usersRouter } from "./routes/users.js";
+import { ordersRouter } from "./routes/orders.js";
 
 const app = express();
 const PORT = 8080;
