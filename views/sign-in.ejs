@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In - Themepark Tickets</title>
     <link rel="stylesheet" href="style.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+
 </head>
 <body>
     <header>
@@ -19,13 +23,13 @@
 
         <h2>Sign In</h2>
 
-        <form action="/sign-in" method="POST">
+        <form id="sign-in">
             <label>Email:
-                <input type="email" name="email" required>
+                <input type="email" id="email" required>
             </label><br>
 
             <label>Password:
-                <input type="password" name="password" required>
+                <input type="password" id="password" required>
             </label><br>
 
             <button type="submit">Sign In</button>
@@ -35,6 +39,56 @@
     <footer>
         <p>This is a placeholder</p>
     </footer>
+
+    <script>
+
+    const firebaseConfig = {
+    apiKey: "AIzaSyCLpPObnjknqhFCp7sylBAiEkvbuJmRvP4",
+    authDomain: "themeparkapp-b896f.firebaseapp.com",
+    projectId: "themeparkapp-b896f",
+    storageBucket: "themeparkapp-b896f.firebasestorage.app",
+    messagingSenderId: "924840648129",
+    appId: "1:924840648129:web:e327454c0c1e904b362340"
+    };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        const form = document.getElementById('signInForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                const idToken = await user.getIdToken();
+
+                const response = await fetch('/sign-in', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ idToken }),
+                });
+
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    alert('Failed to sign in');
+                }
+            } catch (error) {
+                console.error('Error signing in:', error);
+                alert('Error signing in. Please check your credentials and try again.');
+            }
+        });
+    </script>
     
 </body>
 </html>
