@@ -25,8 +25,28 @@
     <main>
         <h2>Rides</h2>
 
-        
+        <% if (rides.length > 0) { %>
+            <% for (let i = 0; i < rides.length; ++i) { %>
+                <section class="ride-card">
+                    <img src="" alt="<%= rides[i].name %> Image">
+                    <h3><%= rides[i].name%></h3>
+                    <p>
+                        Fast-Track Price:
+                        <%= Number(rides[i].fastTrackPrice).toLocaleString("en", {
+                            style: 'currency',
+                            currency: 'GBP'
+                        }) %>
+                    </p>
+                </section>
+            <% } %>
+        <% } else { %>
+            <p>No rides found</p>
+        <% } %>
     </main>
+
+    <footer>
+        <p>This is a placeholder</p>
+    </footer>
     
 </body>
 </html>
