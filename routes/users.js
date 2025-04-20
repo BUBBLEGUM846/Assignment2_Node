@@ -2,6 +2,7 @@
 
 import express from "express";
 import { getDB } from "../db/database.js";
+import { admin } from "../fb/firebase.js";
 import * as auth from "../middleware/auth.js";
 
 const router = express.Router();
@@ -20,6 +21,28 @@ router.get("/sign-up", (req, res) =>
 {
     res.render("sign-up");
 });
+
+router.post("/sign-up", async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        
+        const userRecord = await admin.auth().createUser({
+            email,
+            password,
+        });
+
+        await getDB().collection("users").insertOne({
+            uid: userRecord.uid,
+            email: userRecord.email,
+            createdOn: new Date()
+        });
+
+        res.redirect("/sign-in");      
+    } catch (error) {
+        console.error("Error creating user:", error);
+        res.status(500).send("Error registering user");
+    }
+})
 
 router.get("/", async (req, res, next) =>
 {
