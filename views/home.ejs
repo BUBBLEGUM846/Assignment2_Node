@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Themepark Tickets</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Berties Themepark!</h1>
+        <% if (!user) { %>
+            <nav>
+                <a href="/register">Register</a>
+                <a href="/login">Login</a>
+            </nav>
+        <% } else { %>
+            <nav>
+                <a href="/dashboard">My Tickets</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        <% } %>
+    </header>
+
+    <main>
+        <h2>Rides</h2>
+
+        
+    </main>
+    
+</body>
+</html>
