@@ -25,7 +25,7 @@ router.get("/", async (req, res, next) =>
 {
     try {
         const rides = await getDB().collection("rides").find().toArray();
-        res.render("home", { rides });
+        res.render("home", { rides, user });
     } catch(error) {
         next(error);
     }
