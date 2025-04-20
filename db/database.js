@@ -12,7 +12,7 @@ let db;
 async function connectToDB() {
     try {
         await client.connect();
-        db = client.db();
+        db = client.db("themepark_db");
         console.log("Connected")
     } catch (error) {
         console.error("Error connecting: ", error);
