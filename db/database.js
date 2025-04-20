@@ -10,8 +10,13 @@ const client = new MongoClient(process.env.MONGO_URI);
 let db;
 
 async function connectToDB() {
-    await client.connect();
-    db = client.db();
+    try {
+        await client.connect();
+        db = client.db();
+        console.log("Connected")
+    } catch (error) {
+        console.error("Error connecting: ", error);
+    }
 }
 
 function getDB() {
