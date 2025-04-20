@@ -25,6 +25,7 @@ router.get("/", async (req, res, next) =>
 {
     try {
         const rides = await getDB().collection("rides").find().toArray();
+        const user = res.locals.uid || null;
         res.render("home", { rides, user });
     } catch(error) {
         next(error);
