@@ -23,8 +23,6 @@ app.use((req, res, next) => {
 app.use("/", usersRouter);
 app.use("/orders", ordersRouter);
 
-app.use(express.static('public'));
-
 connectToDB().then(() =>
 {
     app.listen(PORT, () =>
