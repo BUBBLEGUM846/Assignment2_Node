@@ -58,7 +58,7 @@ async function sign_in() {
                 errMsg = "Invalid email format.";
                 break;
             default:
-                errMsg = "Oops! Something weny wrong... " + error.code;
+                errMsg = "Oops! Something went wrong... " + error.code;
                 break;
         }
         domError.textContent = errMsg;
