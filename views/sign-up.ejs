@@ -19,22 +19,26 @@
 
         <h2>Sign In</h2>
 
-        <form action="/sign-up" method="POST">
-            <label>Email:
+        <form id="user-form">
+            <label>Email: 
                 <input type="email" name="email" required>
             </label><br>
 
-            <label>Password:
+            <label>Password: 
                 <input type="password" name="password" required>
             </label><br>
 
-            <button type="submit">Sign Up</button>
+            <button type="submit" id="submit-button" disabled>Sign Up</button>
         </form>
+
+        <div id="error" style="color: red; margin-top: 1em;"></div>
     </main>
 
     <footer>
         <p>This is a placeholder</p>
     </footer>
+
+    <script type="module" src="/js/sign-up-script.js"></script>
     
 </body>
 </html>
