@@ -8,7 +8,7 @@ async function createSessionCookie(req, res, next) {
         const sessionCookie = await fb.auth().createSessionCookie(idToken, { expiresIn });
         const options = { maxAge: expiresIn, httpOnly: true };
         res.cookie("session", sessionCookie, options);
-        next();
+        res.status(200).end();
     } catch (error) {
         error.status = 401;
         next(error);

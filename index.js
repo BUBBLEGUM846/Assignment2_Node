@@ -23,6 +23,7 @@ app.use(async (req, res, next) => {
         const decodedClaims = await fb.auth().verifySessionCookie(sessionCookie, true);
         res.locals.user = decodedClaims.uid;
     } catch (error) {
+        console.error("session cookie verification failed:", error);
         res.locals.user = null;
     }
 
