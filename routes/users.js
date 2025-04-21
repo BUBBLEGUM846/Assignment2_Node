@@ -55,4 +55,10 @@ router.get("/", async (req, res, next) =>
     }
 });
 
+
+router.get("logout", (req, res) => {
+    res.clearCookie("session");
+    res.redirect("/")
+})
+
 export { router as usersRouter };

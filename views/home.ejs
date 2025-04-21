@@ -7,20 +7,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome to Berties Themepark!</h1>
-        <% if (!user) { %>
-            <nav>
-                <a href="/sign-up">Register</a>
-                <a href="/sign-in">Login</a>
-            </nav>
-        <% } else { %>
-            <nav>
-                <a href="/dashboard">My Tickets</a>
-                <a href="/logout">Logout</a>
-            </nav>
-        <% } %>
-    </header>
+
+    <%- include('partials/header') %>
 
     <main>
         <h2>Rides</h2>
