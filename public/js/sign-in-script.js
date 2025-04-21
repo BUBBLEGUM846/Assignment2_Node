@@ -39,14 +39,14 @@ async function sign_in() {
         const response = await fetch("/sign-in", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ idToken: token })
+            body: JSON.stringify({ idToken: token }),
+            credentials: "include"
         });
 
         if (!response.ok) throw new Error("Server sign-in failed");
+        
+        window.location.replace("/");
 
-        setTimeout(() => {
-            window.location.replace("/");
-        }, 200);
     } catch (error) {
         let errMsg;
         switch (error.code) {
