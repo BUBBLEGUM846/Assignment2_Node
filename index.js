@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import { connectToDB } from "./db/database.js";
 import { usersRouter } from "./routes/users.js";
 import { ordersRouter } from "./routes/orders.js";
-import * as auth from "./middleware/auth.js";
+import { admin as fb } from "./fb/firebase.js";
 
 const app = express();
 const PORT = 8080;
@@ -16,11 +16,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-app.use(auth.allowed);
+app.use(async (req, res, next) => {
+    const sessionCookie = req.cookies.session || "";
 
-app.use((req, res, next) => {
-    res.locals.users = res.locals.uid || null;
+    try {
+        const decodedClaims = await fb.auth().verifySessionCookie(sessionCookie, true);
+        res.locals.user = decodedClaims.uid;
+    } catch (error) {
+        res.locals.user = null;
+    }
+
     next();
+
 });
 
 app.use("/", usersRouter);
