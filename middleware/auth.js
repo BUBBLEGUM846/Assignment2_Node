@@ -28,7 +28,8 @@ async function allowed(req, res, next) {
     } catch (error) {
         console.error("Session verification failed:", error);
         res.clearCookie("session");
-        res.redirect("/sign-in");
+        res.locals.user = null;
+        next();
     }
 }
 
