@@ -36,6 +36,8 @@ async function sign_in() {
         const userCredential = await signInWithEmailAndPassword(firebaseAuth, domEmail.value, domPassword.value);
         const token = await userCredential.user.getIdToken();
 
+        console.log("Sending ID token:", token)
+
         const response = await fetch("/sign-in", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
