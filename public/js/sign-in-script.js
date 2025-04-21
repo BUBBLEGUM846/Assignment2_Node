@@ -44,7 +44,9 @@ async function sign_in() {
 
         if (!response.ok) throw new Error("Server sign-in failed");
 
-        window.location.replace("/");
+        setTimeout(() => {
+            window.location.replace("/");
+        }, 200);
     } catch (error) {
         let errMsg;
         switch (error.code) {

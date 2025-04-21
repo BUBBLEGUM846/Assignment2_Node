@@ -44,7 +44,7 @@ router.post("/sign-up", async (req, res, next) => {
     }
 })
 
-router.get("/", async (req, res, next) =>
+router.get("/", auth.allowed, async (req, res, next) =>
 {
     try {
         const rides = await getDB().collection("rides").find().toArray();
