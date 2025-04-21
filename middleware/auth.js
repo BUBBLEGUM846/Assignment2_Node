@@ -19,7 +19,7 @@ async function allowed(req, res, next) {
     const sessionCookie = req.cookies.session || "";
 
     try {
-        res.locals.uid = (await fb.auth().verifySessionCookie(sessionCookie, true)).uid;
+        res.locals.user = (await fb.auth().verifySessionCookie(sessionCookie, true)).uid;
         next();
     } catch (error) {
         error.status = 401;
