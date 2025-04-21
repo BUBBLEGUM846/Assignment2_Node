@@ -48,7 +48,7 @@ router.get("/", auth.allowed, async (req, res, next) =>
 {
     try {
         const rides = await getDB().collection("rides").find().toArray();
-        const user = res.locals.uid || null;
+        const user = res.locals.user || null;
         res.render("home", { rides, user });
     } catch(error) {
         next(error);
