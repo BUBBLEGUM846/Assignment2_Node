@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { connectToDB } from "./db/database.js";
 import { usersRouter } from "./routes/users.js";
 import { ordersRouter } from "./routes/orders.js";
+import * as auth from "./middleware/auth.js";
 
 const app = express();
 const PORT = 8080;
@@ -22,6 +23,13 @@ app.use((req, res, next) => {
 
 app.use("/", usersRouter);
 app.use("/orders", ordersRouter);
+
+app.use(auth.allowed);
+
+app.use((req, res, next) => {
+    res.locals.users = res.locals.uid || null;
+    next();
+});
 
 connectToDB().then(() =>
 {
