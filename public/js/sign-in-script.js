@@ -36,7 +36,7 @@ async function sign_in() {
         const userCredential = await signInWithEmailAndPassword(firebaseAuth, domEmail.value, domPassword.value);
         const token = await userCredential.user.getIdToken(true);
 
-        const response = await fetch("/users/sign-in", {
+        const response = await fetch("/sign-in", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ idToken: token })
@@ -44,7 +44,7 @@ async function sign_in() {
 
         if (!response.ok) throw new Error("Server sign-in failed");
 
-        window.location.replace("users/welcome");
+        window.location.replace("users/home");
     } catch (error) {
         let errMsg;
         switch (error.code) {
