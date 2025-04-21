@@ -1,7 +1,7 @@
 "use strict";
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
 const domForm = document.getElementById("user-form");
 const domEmail = domForm.elements["email"];
@@ -21,6 +21,15 @@ const firebaseCfg = {
 const firebaseApp = initializeApp(firebaseCfg);
 const firebaseAuth = getAuth();
 
+onAuthStateChanged(firebaseAuth, user => {
+    if (user) {
+        console.log("User is signed in:", user);
+    } else {
+        console.log("No user is signed in");
+    }
+});
+
+
 domForm.addEventListener("input", () => {
     domSubmit.disabled = !domForm.checkValidity();
 });
@@ -34,8 +43,9 @@ async function sign_in() {
     try {
 
         const userCredential = await signInWithEmailAndPassword(firebaseAuth, domEmail.value, domPassword.value);
-        const token = await userCredential.user.getIdToken();
+        console.log("User signed in:", userCredential);
 
+        const token = await userCredential.user.getIdToken();
         console.log("Sending ID token:", token)
 
         const response = await fetch("/sign-in", {
@@ -50,6 +60,7 @@ async function sign_in() {
         window.location.replace("/");
 
     } catch (error) {
+        console.error("Error during sign-in:", error)
         let errMsg;
         switch (error.code) {
             case "auth/user-not-found":
