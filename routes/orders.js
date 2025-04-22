@@ -57,7 +57,8 @@ router.get("/my-orders", allowed, async (req, res, next) =>
     try {
         const uid = (await fb.auth().getUser(res.locals.uid)).uid;
         const orders = await getDB().collection("orders").find({ buyer: uid }).toArray();
-        res.render("my-orders", { orders });
+        const rides = await getDB().collection("rides").find().toArray();
+        res.render("my-orders", { orders, rides });
     } catch(error) {
         next(error);
     }
