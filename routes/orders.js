@@ -6,6 +6,14 @@ import { allowed } from "../middleware/auth.js";
 
 const router = express.Router();
 
+router.get("/", allowed, (req, res) => {
+    res.redirect("/orders/my-orders");
+});
+
+router.get("/new", allowed, (req, res) => {
+    res.render("new-order");
+});
+
 router.post("/new-order", allowed, async (req, res, next) =>
 {
     try {
