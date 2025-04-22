@@ -54,7 +54,11 @@ router.post("/buy", allowed, async (req, res, next) =>
             { _id: new ObjectId(req.body.orderId) },
             { $set: { confirmed: true } }
         );
-        res.redirect("/");
+        
+        setTimeout(() => {
+            res.redirect("/");
+        }, 2000);
+
     } catch(error) {
         next(error);
     }
