@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form action="/orders/new-order" method="POST">
+        <label for="date">Select a Date:</label>
+        <input type="date" name="date" required min="<%= new Date().toISOString().split('T')[0] %>">
+        <button type="submit">Create Ticket (£20)</button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h2>Current Orders</h2>
+    <% orders.forEach(order => { %>
+        <section class="order-card">
+            <p>Date: <%= order.date.toDateString() %></p>
+            <p>Total: £<%= order.total %></p>
+            <p>Fast-Track Rides: <%= order.fastRides.join(", ") || "None" %></p>
+            
+            <% if (!order.confirmed) { %>
+                <form action="/orders/add-ride" method="POST">
+                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                    <label for="ride">Add Fast-Track Ride:</label>
+                    <select name="ride">
+                        <% rides.forEach(ride => { %>
+                            <option value="<%= ride.name %>"><%= ride.name %> (£<%= ride.cost %>)</option>
+                        <% }) %>
+                    </select>
+                    <button type="submit">Add Ride</button>
+                </form>
+
+                <form action="/orders/buy" method="POST">
+                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                    <button type="submit">Buy Ticket</button>
+                </form>
+            <% } else { %>
+                <p>Status: Confirmed</p>
+            <% } %>
+        </section>
+    <% }) %>
+
+</body>
+</html>
