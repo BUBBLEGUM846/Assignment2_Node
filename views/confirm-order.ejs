@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <%- include('partials/header') %>
+
+    <h2>Confirm your Tickets - fastracks can be edited until day of ticket</h2>
+
+    <p>Date: <%= order.date.toDateString() %></p>
+    <p>Total: £<%= order.total %></p>
+    <p>Fast-Track Passes: <%= order.fastRides.join(", ") || "None" %></p>
+
+    <form action="/orders/buy" method="POST">
+        <input type="hidden" name="orderId" value="<%= order._id %>">
+        <button type="submit">Confirm tickets</button>
+    </form>
+
+    <a href="/orders/my-orders">Back</a>
+
+    <%- include('partials/footer') %>
+    
+</body>
+</html>

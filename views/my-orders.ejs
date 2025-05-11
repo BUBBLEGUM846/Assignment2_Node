@@ -28,8 +28,7 @@
                     <button type="submit">Add Ride</button>
                 </form>
 
-                <form action="/orders/buy" method="POST">
-                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                <form action="/orders/confirm/<%= order._id %>" method="GET">
                     <button type="submit">Buy Ticket</button>
                 </form>
             <% } else { %>

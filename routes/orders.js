@@ -76,4 +76,19 @@ router.get("/my-orders", allowed, async (req, res, next) =>
     }
 });
 
+router.get("/confirm/:id", allowed, async (req, res, next) => {
+    try {
+        const order = await getDB().collection("orders").findOne({
+            _id: new ObjectId(req.params.id),
+            buyer: res.locals.uid
+        });
+
+        if (!order) return res.status(404).send("Order not found");
+
+        res.render("confirm-order", { order });
+    } catch (error) {
+        next(error);
+    }
+});
+
 export { router as ordersRouter };
