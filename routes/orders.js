@@ -48,7 +48,7 @@ router.post("/add-ride", allowed, async (req, res, next) =>
         }
 
         const ride = await getDB().collection("rides").findOne({ name: req.body.ride });
-        
+
         await getDB().collection("orders").updateOne(
             { _id: new ObjectId(req.body.orderId) },
             {
@@ -83,7 +83,14 @@ router.get("/my-orders", allowed, async (req, res, next) =>
 {
     try {
         const uid = res.locals.uid;
-        const orders = await getDB().collection("orders").find({ buyer: uid }).toArray();
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+
+        const orders = await getDB().collection("orders").find({ 
+            buyer: uid,
+            date: { $gte: now } 
+    }).toArray();
+
         const rides = await getDB().collection("rides").find().toArray();
         res.render("my-orders", { orders, rides });
     } catch(error) {

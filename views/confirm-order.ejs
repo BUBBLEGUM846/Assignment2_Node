@@ -11,9 +11,9 @@
 
     <h2>Confirm your Tickets - fastracks can be edited until day of ticket</h2>
 
-    <p>Date: <%= order.date.toDateString() %></p>
-    <p>Total: £<%= order.total %></p>
-    <p>Fast-Track Passes: <%= order.fastRides.join(", ") || "None" %></p>
+    <p><strong>Date:</strong> <%= order.date.toDateString() %></p>
+    <p><strong>Total:</strong> £<%= order.total %></p>
+    <p><strong>Fast-Track Passes:</strong> <%= order.fastRides.join(", ") || "None" %></p>
 
     <form action="/orders/buy" method="POST">
         <input type="hidden" name="orderId" value="<%= order._id %>">
@@ -23,6 +23,6 @@
     <a href="/orders/my-orders">Back</a>
 
     <%- include('partials/footer') %>
-    
+
 </body>
 </html>
