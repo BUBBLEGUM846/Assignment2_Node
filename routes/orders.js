@@ -54,8 +54,7 @@ router.post("/add-ride", allowed, async (req, res, next) =>
             { _id: new ObjectId(req.body.orderId) },
             {
                 $push: { fastRides: ride.name },
-                $inc: { total: ride.cost },
-                $set: { needsConfirmation: true }
+                $inc: { total: ride.cost }
             }
         );
         res.redirect("/orders/my-orders");
@@ -102,23 +101,16 @@ router.get("/my-orders", allowed, async (req, res, next) =>
     }
 });
 
-router.post("/confirm-order", allowed, async (req, res, next) => {
+router.get("/confirm/:id", allowed, async (req, res, next) => {
     try {
-
-        const orderId = req.body.orderId;
-
-        const result = await getDB().collection("orders").updateOne({
-            _id: new ObjectId(orderId),
+        const order = await getDB().collection("orders").findOne({
+            _id: new ObjectId(req.params.id),
             buyer: res.locals.uid
-        },
-        { $unset: { needsConfirmation: "" }}
-    );
+        });
 
-        if (result.modifiedCount === 0) {
-            return res.status(404).send("Order not found or already confirmed")
-        }
+        if (!order) return res.status(404).send("Order not found");
 
-        res.redirect("/orders/my-orders");
+        res.render("confirm-order", { order });
     } catch (error) {
         next(error);
     }
@@ -136,6 +128,28 @@ router.get("/history", allowed, async (req, res, next) => {
         const rides = await getDB().collection("rides").find().toArray();
 
         res.render("order-history", { orders: pastOrders, rides });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.post("/confirm-order", allowed, async (req, res, next) => {
+    try {
+
+        const orderId = req.body.orderId;
+
+        const result = await getDB().collection("orders").updateOne({
+            _id: new ObjectId(orderId),
+            buyer: res.locals.uid
+        },
+        { $unset: { needsConfirmation: "" }}
+    );
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).send("Order not found or already confirmed")
+        }
+
+        res.redirect("/orders/my-orders");
     } catch (error) {
         next(error);
     }
