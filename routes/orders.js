@@ -97,7 +97,11 @@ router.get("/my-orders", allowed, async (req, res, next) =>
     }).toArray();
 
         const rides = await getDB().collection("rides").find().toArray();
-        res.render("my-orders", { orders, rides });
+
+        const message = req.session.message;
+        delete req.session.message;
+
+        res.render("my-orders", { orders, rides, message });
     } catch(error) {
         next(error);
     }
