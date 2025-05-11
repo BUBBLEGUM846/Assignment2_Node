@@ -6,7 +6,7 @@ import { allowed } from "../middleware/auth.js";
 
 const router = express.Router();
 
-//route redirects to my-orders - I dont think ive actually used this lol
+//route redirects to my-orders - I havent used this consistently and cba to changw everything
 //allowed is only for authenticated users
 router.get("/", allowed, (req, res) => {
     res.redirect("/orders/my-orders");
@@ -42,17 +42,6 @@ router.post("/add-ride", allowed, async (req, res, next) =>
             _id: new ObjectId(req.body.orderId),
             buyer: res.locals.uid
         });
-
-/*         const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        const ticketDate = new Date(order.date);
-        ticketDate.setHours(0, 0, 0, 0);
-
-        //i dont think i need this or the above anymore but ill kepp it to avoid errors
-        if (ticketDate <= today) {
-            return res.redirect("/orders/my-orders");
-        } */
 
         const ride = await getDB().collection("rides").findOne({ name: req.body.ride });
 
