@@ -46,7 +46,8 @@ router.post("/sign-up", async (req, res, next) => {
         res.status(500).send("Error registering user");
     }
 })
-/* 
+//need to show logged in users the home view too, wont work without it
+// not entirely sure why it needs auth allowed if guests can view it but trying to remove it causes errors
 router.get("/", auth.allowed, async (req, res, next) =>
 {
     try {
@@ -56,9 +57,9 @@ router.get("/", auth.allowed, async (req, res, next) =>
     } catch(error) {
         next(error);
     }
-}); */
+});
 
-
+//clear cookie when loggin out to prevent errors
 router.get("/logout", (req, res) => {
     res.clearCookie("session");
     res.redirect("/")

@@ -10,7 +10,7 @@
     <%- include('partials/header') %>
 
     <h2>Confirm your Tickets - fastracks can be edited until day of ticket</h2>
-
+    <!-- confirm order for the date, total and fast-track, this page is not in use -->
     <p><strong>Date:</strong> <%= order.date.toDateString() %></p>
     <p><strong>Total:</strong> £<%= order.total %></p>
     <p><strong>Fast-Track Passes:</strong> <%= order.fastRides.join(", ") || "None" %></p>

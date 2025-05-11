@@ -11,15 +11,18 @@
 
     <h2>Previous Orders</h2>
 
+<!-- go over all orders, set date for comparisons
     <% orders.forEach(order => { 
         const orderDate = new Date(order.date);
         orderDate.setHours(0, 0, 0, 0);
-    %>
+    %> -->
         <section class="order-card">
+            <!-- display the date of the order, total and any dast tracks it had-->
             <p><strong>Date:</strong> <%= order.date.toDateString() %></p>
             <p><strong>Total:</strong> £<%= order.total %></p>
             <p><strong>Fast-Track Rides:</strong> <%= order.fastRides.join(", ") || "None" %></p>
     
+            <!-- display if ticket was used or if it expired -->
             <% if (order.used) { %>
                 <p><strong>Status:</strong> Used</p>
             <% } else { %>

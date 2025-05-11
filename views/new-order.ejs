@@ -9,8 +9,11 @@
 
     <%- include('partials/header') %>
 
+    <!-- select date and create ticket, adds it to my-orders -->
     <form action="/orders/new-order" method="POST">
         <label for="date">Select a Date:</label>
+        <!-- newdate to ISO blahblah means earliest selectable date is today-->
+         <!-- split at T because time doesnt matter -->
         <input type="date" name="date" required min="<%= new Date().toISOString().split('T')[0] %>">
         <button type="submit">Create Ticket (£20)</button>
     </form>
@@ -19,6 +22,6 @@
 
 </body>
 </html>
-
+<!-- leaving this comment below in for fun 11/05 -->
 <!-- OMG IT WORKS - NEED TO ENABLE MORE FASTTRACKS AND MAKWE SURE IT ALL WORKS
  ADD MORE COMMENTS TOO SO I DONT LOOK DUMB DURING THE DEMO -->
