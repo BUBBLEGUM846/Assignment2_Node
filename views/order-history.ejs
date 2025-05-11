@@ -29,7 +29,7 @@
                     <input type="hidden" name="orderId" value="<%= order._id %>">
                     <label for="ride">Add Fast-Tracks:</label>
                     <select name="ride">
-                        <% rides.forEach(ride => { %>
+                        <% ride.forEach(ride => { %>
                             <option value="<%= ride.name %>"><%= ride.name %> (£<%= ride.cost %>)</option>
                         <% }) %>
                     </select>
