@@ -54,7 +54,8 @@ router.post("/add-ride", allowed, async (req, res, next) =>
             { _id: new ObjectId(req.body.orderId) },
             {
                 $push: { fastRides: ride.name },
-                $inc: { total: ride.cost }
+                $inc: { total: ride.cost },
+                $set: { needsConfirmation: true }
             }
         );
         res.redirect("/orders/my-orders");
@@ -101,16 +102,23 @@ router.get("/my-orders", allowed, async (req, res, next) =>
     }
 });
 
-router.get("/confirm/:id", allowed, async (req, res, next) => {
+router.get("/confirm-order", allowed, async (req, res, next) => {
     try {
-        const order = await getDB().collection("orders").findOne({
-            _id: new ObjectId(req.params.id),
+
+        const orderId = req.body.orderId;
+
+        const result = await getDB().collection("orders").updateOne({
+            _id: new ObjectId(orderId),
             buyer: res.locals.uid
-        });
+        },
+        { $unset: { needsConfirmation: "" }}
+    );
 
-        if (!order) return res.status(404).send("Order not found");
+        if (result.modifiedCount === 0) {
+            return res.status(404).send("Order not found or already confirmed")
+        }
 
-        res.render("confirm-order", { order });
+        res.redirect("/orders/my-orders");
     } catch (error) {
         next(error);
     }

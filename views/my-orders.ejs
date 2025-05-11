@@ -35,6 +35,13 @@
                     </select>
                     <button type="submit">Add Ride</button>
                 </form>
+
+                <% if (order.needsConfirmation) { %>
+                    <form action="/orders/confirm-order" method="POST">
+                        <input type="hidden" name="oderId" value="<%= order._id %>">
+                        <button type="submit">Confirm changes</button>
+                    </form>
+                <% } %>
             <% } else if (isToday) { %>
                 <form action="/orders/use" method="POST">
                     <input type="hidden" name="orderId" value="<%= order._id %>">
