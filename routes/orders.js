@@ -102,7 +102,7 @@ router.get("/my-orders", allowed, async (req, res, next) =>
     }
 });
 
-router.get("/confirm-order", allowed, async (req, res, next) => {
+router.post("/confirm-order", allowed, async (req, res, next) => {
     try {
 
         const orderId = req.body.orderId;
