@@ -9,7 +9,7 @@
 
     <%- include('partials/header') %>
 
-    <h2>Current Orders</h2>
+    <h2>Previous Orders</h2>
 
     <% const today = new Date(); today.setHours(0, 0, 0, 0); %>
 
@@ -23,6 +23,8 @@
             <p><strong>Date:</strong> <%= order.date.toDateString() %></p>
             <p><strong>Total:</strong> £<%= order.total %></p>
             <p><strong>Fast-Track Rides:</strong> <%= order.fastRides.join(", ") || "None" %></p>
+            <p><strong>Status:</strong> <%= order.used ? "Used" : "Expired (Unused)" %></p>
+
             
             <% if (!order.confirmed) { %>
                 <form action="/orders/add-ride" method="POST">

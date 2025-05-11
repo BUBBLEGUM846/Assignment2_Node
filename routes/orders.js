@@ -137,7 +137,7 @@ router.post("/use", allowed, async (req, res, next) => {
 
         const result = await getDB().collection("orders").updateOne(
             { _id: new ObjectId(orderId), buyer: res.locals.uid },
-            { $set: { date: new Date(0) } }
+            { $set: { used: true } }
         );
 
         if (result.modifiedCount === 0) {
