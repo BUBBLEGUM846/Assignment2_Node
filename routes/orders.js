@@ -120,10 +120,10 @@ router.get("/history", allowed, async (req, res, next) => {
     try {
         const now = new Date();
         now.setHours(0, 0, 0, 0);
-        
+
         const pastOrders = await getDB().collection("orders").find({
             buyer: res.locals.uid,
-            date: { $lt: now }
+            used: true
         }).toArray();
 
         const rides = await getDB().collection("rides").find().toArray();
