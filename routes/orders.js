@@ -93,7 +93,7 @@ router.get("/my-orders", allowed, async (req, res, next) =>
 });
 
 //confirmation for specific order - again might be redundant now
-router.get("/confirm/:id", allowed, async (req, res, next) => {
+/* router.get("/confirm/:id", allowed, async (req, res, next) => {
     try {
         const order = await getDB().collection("orders").findOne({
             _id: new ObjectId(req.params.id),
@@ -106,7 +106,7 @@ router.get("/confirm/:id", allowed, async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-});
+}); */
 
 router.get("/history", allowed, async (req, res, next) => {
     try {
