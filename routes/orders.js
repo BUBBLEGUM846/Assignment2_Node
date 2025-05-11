@@ -89,7 +89,8 @@ router.get("/my-orders", allowed, async (req, res, next) =>
 
         const orders = await getDB().collection("orders").find({ 
             buyer: uid,
-            date: { $gte: now } 
+            date: { $gte: now },
+            used: { $ne: true } 
     }).toArray();
 
         const rides = await getDB().collection("rides").find().toArray();
