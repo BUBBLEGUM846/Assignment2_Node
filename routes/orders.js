@@ -44,7 +44,7 @@ router.post("/add-ride", allowed, async (req, res, next) =>
         const ticketDate = new Date(order.date);
         ticketDate.setHours(0, 0, 0, 0);
 
-        const isEditable = order.confirmed && ticketDate > today;
+        const isEditable = order.confirmed && ticketDate.getTime() > today.getTime();
 
         if (!isEditable) {
             return res.redirect("/orders/my-orders");
@@ -130,6 +130,26 @@ router.get("/history", allowed, async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-})
+});
+
+router.post("/use", allowed, async (req, res, next) => {
+    try {
+        const orderId = req.body.orderId;
+
+        const result = await getDB().collection("orders").updateOne(
+            { _id: new ObjectId(orderId), buyer: res.locals.uid },
+            { $set: { date: new Date(0) } }
+        );
+
+        if (result.modifiedCount === 0) {
+
+            return res.status(404).send("Order not found")
+        }
+
+        res.redirect("/orders/my-orders");
+    } catch (error) {
+        next(error);
+    }
+});
 
 export { router as ordersRouter };
