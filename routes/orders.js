@@ -123,7 +123,6 @@ router.get("/history", allowed, async (req, res, next) => {
 
         const pastOrders = await getDB().collection("orders").find({
             buyer: res.locals.uid,
-            used: true
         }).toArray();
 
         const rides = await getDB().collection("rides").find().toArray();
