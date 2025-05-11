@@ -10,30 +10,20 @@ import { admin as fb } from "./fb/firebase.js";
 const app = express();
 const PORT = 8080;
 
+//middleware configs for cookies and other stuff i may or may not have used
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-app.use(async (req, res, next) => {
-    const sessionCookie = req.cookies.session || "";
-
-    try {
-        const decodedClaims = await fb.auth().verifySessionCookie(sessionCookie, true);
-        res.locals.user = decodedClaims.uid;
-    } catch (error) {
-        console.error("session cookie verification failed:", error);
-        res.locals.user = null;
-    }
-
-    next();
-
-});
+//connect to auth.js for cookie - accidentally duplicated this and had to delete
+app.use(allowed);
 
 app.use("/", usersRouter);
 app.use("/orders", ordersRouter);
 
+//connect to database first, when successful, start server
 connectToDB().then(() =>
 {
     app.listen(PORT, () =>
