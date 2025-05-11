@@ -8,9 +8,9 @@ const router = express.Router();
 
 //route redirects to my-orders - I dont think ive actually used this lol
 //allowed is only for authenticated users
-//router.get("/", allowed, (req, res) => {
-    //res.redirect("/orders/my-orders");
-//});
+router.get("/", allowed, (req, res) => {
+    res.redirect("/orders/my-orders");
+});
 
 //create new order
 router.get("/new", allowed, (req, res) => {
