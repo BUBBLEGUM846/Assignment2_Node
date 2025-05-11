@@ -6,10 +6,13 @@ import { allowed } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get("/", allowed, (req, res) => {
-    res.redirect("/orders/my-orders");
-});
+//route redirects to my-orders - I dont think ive actually used this lol
+//allowed is only for authenticated users
+//router.get("/", allowed, (req, res) => {
+    //res.redirect("/orders/my-orders");
+//});
 
+//create new order
 router.get("/new", allowed, (req, res) => {
     res.render("new-order");
 });
@@ -17,6 +20,7 @@ router.get("/new", allowed, (req, res) => {
 router.post("/new-order", allowed, async (req, res, next) =>
 {
     try {
+        //user, date provided, empty fastrides, ticket is £20, confirmed is false (probably dont need confirmed anymore)
         await getDB().collection("orders").insertOne({
             buyer: res.locals.uid,
             date: new Date(req.body.date),
@@ -24,6 +28,7 @@ router.post("/new-order", allowed, async (req, res, next) =>
             total: 20,
             confirmed: false
         });
+        //redirect back to my orders
         res.redirect("/orders/my-orders");
     } catch(error) {
         next(error);
@@ -44,6 +49,7 @@ router.post("/add-ride", allowed, async (req, res, next) =>
         const ticketDate = new Date(order.date);
         ticketDate.setHours(0, 0, 0, 0);
 
+        //i dont think i need this or the above anymore but ill kepp it to avoid errors
         if (ticketDate <= today) {
             return res.redirect("/orders/my-orders");
         }
@@ -53,9 +59,9 @@ router.post("/add-ride", allowed, async (req, res, next) =>
         await getDB().collection("orders").updateOne(
             { _id: new ObjectId(req.body.orderId) },
             {
-                $push: { fastRides: ride.name },
-                $inc: { total: ride.cost },
-                $set: { needsConfirmation: true }
+                $push: { fastRides: ride.name }, //add name to fastrides array
+                $inc: { total: ride.cost }, //increase the cost based on fasttrack price
+                $set: { needsConfirmation: true } //needs to be confirmed
             }
         );
         res.redirect("/orders/my-orders");
@@ -64,22 +70,24 @@ router.post("/add-ride", allowed, async (req, res, next) =>
     }
 });
 
-router.post("/buy", allowed, async (req, res, next) =>
-{
-    try {
-        await getDB().collection("orders").updateOne(
-            { _id: new ObjectId(req.body.orderId) },
-            { $set: { confirmed: true } }
-        );
-        
-        setTimeout(() => {
-            res.redirect("/");
-        }, 2000);
 
-    } catch(error) {
-        next(error);
-    }
-});
+//this may not be needed anymore, orders arent confirmed this way
+//router.post("/buy", allowed, async (req, res, next) =>
+//{
+    //try {
+        //await getDB().collection("orders").updateOne(
+            //{ _id: new ObjectId(req.body.orderId) },
+            //{ $set: { confirmed: true } }
+        //);
+        
+        //setTimeout(() => {
+            //res.redirect("/");
+        //}, 2000);
+
+    //} catch(error) {
+        //next(error);
+    //}
+//});
 
 router.get("/my-orders", allowed, async (req, res, next) => 
 {
@@ -88,6 +96,7 @@ router.get("/my-orders", allowed, async (req, res, next) =>
         const now = new Date();
         now.setHours(0, 0, 0, 0);
 
+        //lists orders that are for the future and are not marked as used
         const orders = await getDB().collection("orders").find({ 
             buyer: uid,
             date: { $gte: now },
@@ -102,6 +111,7 @@ router.get("/my-orders", allowed, async (req, res, next) =>
     }
 });
 
+//confirmation for specific order - again might be redundant now
 router.get("/confirm/:id", allowed, async (req, res, next) => {
     try {
         const order = await getDB().collection("orders").findOne({
@@ -123,6 +133,7 @@ router.get("/history", allowed, async (req, res, next) => {
         now.setHours(0, 0, 0, 0);
 
         const pastOrders = await getDB().collection("orders").find({
+            //filters orders that are past or have been used
             buyer: res.locals.uid,
             $or: [
                 { date: { $lt: now }, used: { $ne: true } },
@@ -138,6 +149,7 @@ router.get("/history", allowed, async (req, res, next) => {
     }
 });
 
+//new confirm order that needs confirms after every change of the ticket
 router.post("/confirm-order", allowed, async (req, res, next) => {
     try {
 
@@ -151,7 +163,7 @@ router.post("/confirm-order", allowed, async (req, res, next) => {
 
         const result = await getDB().collection("orders").updateOne(
             { _id: new ObjectId(orderId), buyer: res.locals.uid },
-            { $unset: { needsConfirmation: "" } } 
+            { $unset: { needsConfirmation: "" } } //confirm
         );
 
         if (result.modifiedCount === 0) {
@@ -164,6 +176,7 @@ router.post("/confirm-order", allowed, async (req, res, next) => {
     }
 });
 
+//mark ticket as used
 router.post("/use", allowed, async (req, res, next) => {
     try {
         const orderId = req.body.orderId;

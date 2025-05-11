@@ -1,6 +1,7 @@
 <header>    
     <h1>Welcome to Berties Themepark!</h1>
     <nav>
+        <!-- if signed in show orders and logout, if not show sign-up and sign-in -->
         <% if (user) { %>
             <a href="/orders">My Orders</a>
             <a href="/orders/new">New Ticket</a>

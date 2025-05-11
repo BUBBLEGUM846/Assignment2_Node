@@ -3,6 +3,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
+//same as sign-in
+
 const domForm = document.getElementById("user-form");
 const domEmail = domForm.elements["email"];
 const domPassword = domForm.elements["password"];

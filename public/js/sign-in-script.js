@@ -3,6 +3,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
+//variabes needed for signing in
 const domForm = document.getElementById("user-form");
 const domEmail = domForm.elements["email"];
 const domPassword = domForm.elements["password"];
@@ -21,6 +22,7 @@ const firebaseCfg = {
 const firebaseApp = initializeApp(firebaseCfg);
 const firebaseAuth = getAuth();
 
+//cant remember what this was for, probably debugging something
 onAuthStateChanged(firebaseAuth, user => {
     if (user) {
         console.log("User is signed in:", user);
@@ -29,11 +31,12 @@ onAuthStateChanged(firebaseAuth, user => {
     }
 });
 
-
+//only wenable submit button when it is valid
 domForm.addEventListener("input", () => {
     domSubmit.disabled = !domForm.checkValidity();
 });
 
+//prevent default form and calls sign_in
 domForm.addEventListener("submit", (event) => {
     event.preventDefault();
     sign_in();
@@ -46,6 +49,7 @@ async function sign_in() {
 
         const token = await userCredential.user.getIdToken();
 
+        //send POST request with ID token and cookies
         const response = await fetch("/sign-in", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -53,6 +57,7 @@ async function sign_in() {
             credentials: "include"
         });
 
+        //unsucess means error, success means redirect to home page
         if (!response.ok) throw new Error("Server sign-in failed");
         
         window.location.replace("/");
@@ -60,6 +65,7 @@ async function sign_in() {
     } catch (error) {
         console.error("Error during sign-in:", error)
         let errMsg;
+        //errors for each issue
         switch (error.code) {
             case "auth/user-not-found":
                 errMsg = "No user found with that email.";
