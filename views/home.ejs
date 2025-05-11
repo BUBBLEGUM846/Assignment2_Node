@@ -17,7 +17,7 @@
             <% for (let i = 0; i < rides.length; ++i) { %>
                 <section class="ride-card">
                     <h3><%= rides[i].name%></h3>
-                    <img src="/assets/rides/ride.png" alt="<%= rides[i].name %> Image">
+                    <img src="/assets/ride.png" alt="<%= rides[i].name %> Image">
                     <p>
                         Fast-Track Price:
                         <%= Number(rides[i].cost).toLocaleString("en", {
