@@ -43,7 +43,7 @@ router.post("/add-ride", allowed, async (req, res, next) =>
             buyer: res.locals.uid
         });
 
-        const today = new Date();
+/*         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
         const ticketDate = new Date(order.date);
@@ -52,7 +52,7 @@ router.post("/add-ride", allowed, async (req, res, next) =>
         //i dont think i need this or the above anymore but ill kepp it to avoid errors
         if (ticketDate <= today) {
             return res.redirect("/orders/my-orders");
-        }
+        } */
 
         const ride = await getDB().collection("rides").findOne({ name: req.body.ride });
 
