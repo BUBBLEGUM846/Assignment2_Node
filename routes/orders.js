@@ -47,7 +47,6 @@ router.post("/add-ride", allowed, async (req, res, next) =>
         const isEditable = order.confirmed && ticketDate > today;
 
         if (!isEditable) {
-            req.session.message = "Cannot edit orders on the day"
             return res.redirect("/orders/my-orders");
 
         }
@@ -98,10 +97,7 @@ router.get("/my-orders", allowed, async (req, res, next) =>
 
         const rides = await getDB().collection("rides").find().toArray();
 
-        const message = req.session.message;
-        delete req.session.message;
-
-        res.render("my-orders", { orders, rides, message });
+        res.render("my-orders", { orders, rides });
     } catch(error) {
         next(error);
     }
