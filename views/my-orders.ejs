@@ -10,13 +10,22 @@
     <%- include('partials/header') %>
 
     <h2>Current Orders</h2>
-    <% orders.forEach(order => { %>
+
+    <% const today = new Date(); today.setHours(0, 0, 0, 0); %>
+
+    <% orders.forEach(order => {
+        const orderDate = new Date(order.date);
+        orderDate.setHours(0, 0, 0, 0);
+        const isToday = orderDate.getTime() === today.getTime();
+        const isFuture = orderDate.getTime() > today.getTime();
+        const canEdit = !order.confirmed || isToday || isFuture;
+    %>
         <section class="order-card">
             <p><strong>Date:</strong> <%= order.date.toDateString() %></p>
             <p><strong>Total:</strong> £<%= order.total %></p>
             <p><strong>Fast-Track Rides:</strong> <%= order.fastRides.join(", ") || "None" %></p>
-            
-            <% if (!order.confirmed) { %>
+    
+            <% if (canEdit) { %>
                 <form action="/orders/add-ride" method="POST">
                     <input type="hidden" name="orderId" value="<%= order._id %>">
                     <label for="ride">Add Fast-Track Ride:</label>
@@ -27,16 +36,23 @@
                     </select>
                     <button type="submit">Add Ride</button>
                 </form>
-
+            <% } %>
+    
+            <% if (!order.confirmed) { %>
                 <form action="/orders/confirm/<%= order._id %>" method="GET">
                     <button type="submit">Buy Ticket</button>
+                </form>
+            <% } else if (isToday) { %>
+                <form action="/orders/use" method="POST">
+                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                    <button type="submit">Use Ticket</button>
                 </form>
             <% } else { %>
                 <p>Status: Confirmed</p>
             <% } %>
         </section>
     <% }) %>
-
+    
     <a href="/orders/history">View previous orders</a>
 
     <%- include('partials/footer') %>

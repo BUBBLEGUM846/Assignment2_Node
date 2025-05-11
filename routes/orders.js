@@ -44,7 +44,7 @@ router.post("/add-ride", allowed, async (req, res, next) =>
         const ticketDate = new Date(order.date);
         ticketDate.setHours(0, 0, 0, 0);
 
-        const isEditable = order.confirmed && ticketDate.getTime() > today.getTime();
+        const isEditable = ticketDate.getTime() > today.getTime();
 
         if (!isEditable) {
             return res.redirect("/orders/my-orders");
