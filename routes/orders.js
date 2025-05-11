@@ -92,22 +92,6 @@ router.get("/my-orders", allowed, async (req, res, next) =>
     }
 });
 
-//confirmation for specific order - again might be redundant now
-/* router.get("/confirm/:id", allowed, async (req, res, next) => {
-    try {
-        const order = await getDB().collection("orders").findOne({
-            _id: new ObjectId(req.params.id),
-            buyer: res.locals.uid
-        });
-
-        if (!order) return res.status(404).send("Order not found");
-
-        res.render("confirm-order", { order });
-    } catch (error) {
-        next(error);
-    }
-}); */
-
 router.get("/history", allowed, async (req, res, next) => {
     try {
         const now = new Date();
