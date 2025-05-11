@@ -119,9 +119,11 @@ router.get("/confirm/:id", allowed, async (req, res, next) => {
 router.get("/history", allowed, async (req, res, next) => {
     try {
         const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        
         const pastOrders = await getDB().collection("orders").find({
             buyer: res.locals.uid,
-            date: { $lt: new Date(now.setHours(0, 0, 0, 0)) }
+            date: { $lt: now }
         }).toArray();
 
         const rides = await getDB().collection("rides").find().toArray();
