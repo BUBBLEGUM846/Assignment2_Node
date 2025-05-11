@@ -44,7 +44,7 @@ router.post("/add-ride", allowed, async (req, res, next) =>
 
         if (!isConfirmed || !isFuture) {
 
-            return res.status(400).sendFile("Cannot edit order");
+            return res.status(400).send("Cannot edit order");
         }
 
         const ride = await getDB().collection("rides").findOne({ name: req.body.ride });
@@ -113,7 +113,7 @@ router.get("/confirm/:id", allowed, async (req, res, next) => {
     }
 });
 
-router.get("history", allowed, async (req, res, next) => {
+router.get("/history", allowed, async (req, res, next) => {
     try {
         const now = new Date();
         const pastOrders = await getDB().collection("orders").find({
