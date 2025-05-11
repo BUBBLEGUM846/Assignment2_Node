@@ -123,7 +123,9 @@ router.get("/history", allowed, async (req, res, next) => {
             date: { $lt: new Date(now.setHours(0, 0, 0, 0)) }
         }).toArray();
 
-        res.render("order-history", { orders: pastOrders });
+        const rides = await getDB().collection("rides").find().toArray();
+
+        res.render("order-history", { orders: pastOrders, rides });
     } catch (error) {
         next(error);
     }
