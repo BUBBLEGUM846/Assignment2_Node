@@ -91,4 +91,18 @@ router.get("/confirm/:id", allowed, async (req, res, next) => {
     }
 });
 
+router.get("history", allowed, async (req, res, next) => {
+    try {
+        const now = new Date();
+        const pastOrders = await getDB().collection("orders").find({
+            buyer: res.locals.uid,
+            date: { $lt: new Date(now.setHours(0, 0, 0, 0)) }
+        }).toArray();
+
+        res.render("order-history", { orders: pastOrders });
+    } catch (error) {
+        next(error);
+    }
+})
+
 export { router as ordersRouter };
