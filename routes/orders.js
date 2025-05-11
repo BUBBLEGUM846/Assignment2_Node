@@ -38,13 +38,18 @@ router.post("/add-ride", allowed, async (req, res, next) =>
             buyer: res.locals.uid
         });
 
-        const now = new Date();
-        const isFuture = order.date > now;
-        const isConfirmed = order.confirmed;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-        if (!isConfirmed || !isFuture) {
+        const ticketDate = new Date(order.date);
+        ticketDate.setHours(0, 0, 0, 0);
 
-            return res.status(400).send("Cannot edit order");
+        const isEditable = order.confirmed && ticketDate > today;
+
+        if (!isEditable) {
+            req.session.message = "Cannot edit orders on the day"
+            return res.redirect("/orders/my-orders");
+
         }
 
         const ride = await getDB().collection("rides").findOne({ name: req.body.ride });

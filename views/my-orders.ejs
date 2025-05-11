@@ -37,6 +37,10 @@
         </section>
     <% }) %>
 
+    <% if (message) { %>
+        <div class="alert"><%= message %></div>
+    <% } %>    
+
     <a href="/orders/history">View previous orders</a>
 
     <%- include('partials/footer') %>
