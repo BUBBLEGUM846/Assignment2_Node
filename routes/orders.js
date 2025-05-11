@@ -33,7 +33,22 @@ router.post("/new-order", allowed, async (req, res, next) =>
 router.post("/add-ride", allowed, async (req, res, next) =>
 {
     try {
+        const order = await getDB().collection("orders").findOne({
+            _id: new ObjectId(req.body.orderId),
+            buyer: res.locals.uid
+        });
+
+        const now = new Date();
+        const isFuture = order.date > now;
+        const isConfirmed = order.confirmed;
+
+        if (!isConfirmed || !isFuture) {
+
+            return res.status(400).sendFile("Cannot edit order");
+        }
+
         const ride = await getDB().collection("rides").findOne({ name: req.body.ride });
+        
         await getDB().collection("orders").updateOne(
             { _id: new ObjectId(req.body.orderId) },
             {
