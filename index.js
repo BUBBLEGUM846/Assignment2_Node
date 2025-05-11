@@ -6,6 +6,7 @@ import { connectToDB } from "./db/database.js";
 import { usersRouter } from "./routes/users.js";
 import { ordersRouter } from "./routes/orders.js";
 import { admin as fb } from "./fb/firebase.js";
+import { allowed } from "./middleware/auth.js";
 
 const app = express();
 const PORT = 8080;
