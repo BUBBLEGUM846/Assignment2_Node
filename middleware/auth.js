@@ -7,8 +7,6 @@ async function createSessionCookie(req, res, next) {
     try {
         const sessionCookie = await fb.auth().createSessionCookie(idToken, { expiresIn });
 
-        console.log("Session Cookie Created:", sessionCookie);
-
         const options = { maxAge: expiresIn, httpOnly: true };
         res.cookie("session", sessionCookie, options);
         next();
@@ -20,7 +18,6 @@ async function createSessionCookie(req, res, next) {
 
 async function allowed(req, res, next) {
     const sessionCookie = req.cookies.session || "";
-    console.log("Session Cookie Retrieved:", sessionCookie);
 
     try {
         res.locals.user = (await fb.auth().verifySessionCookie(sessionCookie, true)).uid;
