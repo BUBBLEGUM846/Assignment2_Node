@@ -70,25 +70,6 @@ router.post("/add-ride", allowed, async (req, res, next) =>
     }
 });
 
-
-//this may not be needed anymore, orders arent confirmed this way
-//router.post("/buy", allowed, async (req, res, next) =>
-//{
-    //try {
-        //await getDB().collection("orders").updateOne(
-            //{ _id: new ObjectId(req.body.orderId) },
-            //{ $set: { confirmed: true } }
-        //);
-        
-        //setTimeout(() => {
-            //res.redirect("/");
-        //}, 2000);
-
-    //} catch(error) {
-        //next(error);
-    //}
-//});
-
 router.get("/my-orders", allowed, async (req, res, next) => 
 {
     try {
