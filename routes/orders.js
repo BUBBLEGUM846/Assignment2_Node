@@ -44,11 +44,8 @@ router.post("/add-ride", allowed, async (req, res, next) =>
         const ticketDate = new Date(order.date);
         ticketDate.setHours(0, 0, 0, 0);
 
-        const isEditable = ticketDate.getTime() > today.getTime();
-
-        if (!isEditable) {
+        if (ticketDate <= today) {
             return res.redirect("/orders/my-orders");
-
         }
 
         const ride = await getDB().collection("rides").findOne({ name: req.body.ride });
